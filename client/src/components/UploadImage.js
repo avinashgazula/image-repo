@@ -1,38 +1,48 @@
-import React, { Component } from 'react'
+import React, { useState, useContext } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
-export default class UploadImage extends Component {
+export const UploadImage = () => {
+    const [image, setImage] = useState(null)
 
-    state = {
-        image: null
-    }
+    const { addImage } = useContext(GlobalContext)
 
-    onFileChange = event => {
-        this.setState({image: event.target.files[0]})
-    }
-
-    onSubmit = event => {
+    const onSubmit = event => {
         event.preventDefault();
 
-        const formData = new FormData();
-        formData.append("image", this.state.image, this.state.image.name);
-        formData.append()
+        if (image) {
 
-        console.log(this.state.image);
+            console.log(`image file is ${image}`)
+
+            const formData = new FormData();
+            formData.append("file", image);
+            formData.append("filename", image.name)
+            formData.append("user", "user1")
+
+            const newImage = {
+                "user": "user1",
+                "filename": image.name,
+                "file": image
+            }
+
+            console.log(image);
+            addImage(formData)
+        }
         
     }
 
-    render() {
-        return (
-            <div>
-                <h3>Upload Image</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-control">
-                        <label htmlFor="uploadedImage">Image</label>
-                        <input id="uploadedImage" type="file" onChange={this.onFileChange} placeholder="Enter text.." />
-                    </div>
-                    <button className="btn" type="submit">Upload</button>
-                </form>
-            </div >
-        )
-    }
+    
+    return (
+        <div>
+            <h3>Upload Image</h3>
+            <form onSubmit={onSubmit}>
+                <div className="form-control">
+                    <label htmlFor="uploadedImage">Image</label>
+                    <br/>
+                    <input id="uploadedImage" type="file" onChange={event => { setImage(event.target.files[0]) }} placeholder="Enter text.." />
+                </div>
+                <button className="btn" type="submit">Upload</button>
+            </form>
+        </div >
+    )
+    
 }
