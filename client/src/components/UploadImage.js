@@ -18,11 +18,11 @@ export const UploadImage = () => {
             formData.append("filename", image.name)
             formData.append("user", "user1")
 
-            const newImage = {
-                "user": "user1",
-                "filename": image.name,
-                "file": image
-            }
+            // const newImage = {
+            //     "user": "user1",
+            //     "filename": image.name,
+            //     "file": image
+            // }
 
             console.log(image);
             addImage(formData)

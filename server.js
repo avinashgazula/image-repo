@@ -25,7 +25,7 @@ if (process.env.NODE_ENV == 'development') {
 
 connectDB();
 
-app.use('/api/images', images);
+app.use('/api/files', images);
 
 const PORT = process.env.PORT || 5000;
 

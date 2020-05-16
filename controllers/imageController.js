@@ -6,16 +6,16 @@ var fs = require('fs')
 var obj1 = {}
 
 // @route GET /api/images
-exports.getImages = (req, res, next) => {
+exports.getImages = async (req, res, next) => {
     try {
-        const images = Image.find();
-        console.log(images);
+        const images = await Image.find();
+        // console.log(images[0].img[4]);
         
-        // return res.status(200).json({
-        //     success: true,
-        //     count: images.length,
-        //     data: images
-        // })
+        return res.status(200).json({
+            success: true,
+            count: images.length,
+            data: images
+        })
 
         
     } catch (error) {
@@ -31,49 +31,44 @@ exports.getImages = (req, res, next) => {
 // @route POST /api/images
 exports.uploadImage = async (req, res, next) => {
 
-    
-    var form = await formidable.IncomingForm();
-    
-    form.parse(req, (err, fields, files) => {
-        if (err) {
-            console.error(`formidable error is ${err}`)
-            return;
-        }
-        
-        var obj = { ...fields, ...files }
+    try {
+        var form = await formidable.IncomingForm();
 
-        
-        // console.log("path is", files.file.path)
-        var path = files.file.path
-
-        fs.readFile(path, function read(err, data) {
+        form.parse(req, (err, fields, files) => {
             if (err) {
-                throw err;
+                console.error(`formidable error is ${err}`)
+                return;
             }
-            const content = data;
-            obj["img"] = content;
-            delete obj["file"]
 
-            
-            const image = Image.create(obj).then(() => {
-                console.log(`Upload successful`.green.italic)
+            var obj = { ...fields, ...files }
+            var path = files.file.path
+
+            fs.readFile(path, async function read(err, data) {
+                if (err) {
+                    throw err;
+                }
+                const content = data;
+                obj["img"] = content;
+                delete obj["file"]
+
+
+                const image = await Image.create(obj)
                 return res.status(201).json({
                     success: true,
                     image: image
                 })
-            }, () => {
-                    console.log(`Upload failed`.red.italic)
-                    return res.status(400).json({
-                        success: false,
-                        error: error
-                    })
             });
+
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
         });
-
-
-    })
-   
+    }
     
+
     
 }
 
