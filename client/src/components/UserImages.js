@@ -12,17 +12,20 @@ export const  UserImages = () => {
        
     }, []);
 
-    var arr = []
 
-    console.log("length", images.length)
     if (images.length) {
-        // console.log(images[0])
-        console.log(images)
+
+            
         for (var i = 0; i < images.length; i++){
-            arr.push("data:image/png;base64," + btoa(String.fromCharCode.apply(null, images[i].img.data)))
+            var b = new Buffer(images[i].img.data);
+            var s = b.toString('base64');
+            images[i].base64 = "data:image/png;base64," + s
         }
-        // arr.push(images.map(image => "data:image/png;base64," + btoa(String.fromCharCode.apply(null, image.img.data)))
+        console.log(images);
+        
     }
+
+    
 
     return (
         images.length ?
@@ -30,8 +33,8 @@ export const  UserImages = () => {
             <h3>Your Images</h3>
             <ul className="user-images">
                 {
-                    arr.map(image => (
-                        <img key={Math.random()} src={image} alt="test" width="200"/>
+                    images.map(image => (
+                        <img key={image._id} src={image.base64} alt={image.filename} width="200"/>
                 ))}
             </ul>
             
