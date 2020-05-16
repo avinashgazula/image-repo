@@ -31,13 +31,13 @@ export const GlobalProvider = ({ children }) => {
         }
     }
     
-    async function addImage(image) {
+    async function addImage(images) {
 
         try {
-            const res = await axios.post('http://localhost:5000/api/files', image)
+            const res = await axios.post('http://localhost:5000/api/files', images)
             dispatch({
                 type: 'ADD_IMAGE',
-                payload: res.data.image
+                payload: res.data.images
             })
         } catch (error) {
             dispatch({
@@ -49,12 +49,6 @@ export const GlobalProvider = ({ children }) => {
 
     async function deleteImage(id) {
         try {
-            const config = {
-                headers: {
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                    'Access-Control-Allow-Credentials': 'true'
-                }
-            }
             await axios.delete(`http://localhost:5000/api/files/${id}`)
             dispatch({
                 type: 'DELETE_IMAGE',

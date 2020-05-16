@@ -40,24 +40,63 @@ exports.uploadImage = async (req, res, next) => {
                 return;
             }
 
-            var obj = { ...fields, ...files }
-            var path = files.file.path
+            // console.log("fields", fields)
+            // console.log("files", files);
 
-            fs.readFile(path, async function read(err, data) {
-                if (err) {
-                    throw err;
-                }
-                const content = data;
-                obj["img"] = content;
-                delete obj["file"]
+            var count = Number(fields.count)
+
+            var images = []
+
+            for (let i = 0; i < count; i++){
+                var obj = {}
+                obj['user'] = fields[`user[${i}]`]
+                obj['filename'] = fields[`filename[${i}]`]
+                var path = files[`file[${i}]`].path
+
+                fs.readFile(path, async function read(err, data) {
+                    if (err) {
+                        throw err;
+                    }
+                    const content = data;
+                    obj["img"] = content;
+
+                    const image = await Image.create(obj)
+                    images.push(image)
+                    
+                });
+                
+            }
+
+            console.log("images", images)
+
+            return res.status(201).json({
+                success: true,
+                images: images
+            })
+            
+            
+            
+            
+            
+
+            // var obj = { ...fields, ...files }
+            // var path = files.file.path
+
+            // fs.readFile(path, async function read(err, data) {
+            //     if (err) {
+            //         throw err;
+            //     }
+            //     const content = data;
+            //     obj["img"] = content;
+            //     delete obj["file"]
 
 
-                const image = await Image.create(obj)
-                return res.status(201).json({
-                    success: true,
-                    image: image
-                })
-            });
+            //     const image = await Image.create(obj)
+            //     return res.status(201).json({
+            //         success: true,
+            //         image: image
+            //     })
+            // });
 
         })
         
