@@ -75,10 +75,7 @@ exports.uploadImage = async (req, res, next) => {
 
 // @route DELETE /api/images/:id
 exports.deleteImage = async (req, res, next) => {
-
-    console.log(`id is ${req.params.id}`);
-    
-
+ 
     const image = Image.findById(req.params.id)
     if (!image) {
         return res.status(500).json({

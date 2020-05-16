@@ -15,13 +15,11 @@ export const  UserImages = () => {
 
     if (images.length) {
 
-            
         for (var i = 0; i < images.length; i++){
             var b = new Buffer(images[i].img.data);
             var s = b.toString('base64');
             images[i].base64 = "data:image/png;base64," + s
         }
-        console.log(images);
         
     }
 
