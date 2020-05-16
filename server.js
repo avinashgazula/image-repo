@@ -19,6 +19,10 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+var cors = require('cors')
+
+app.use(cors()) 
+
 if (process.env.NODE_ENV == 'development') {
     app.use(morgan('dev'))
 }

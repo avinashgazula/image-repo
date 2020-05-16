@@ -25,7 +25,7 @@ export const GlobalProvider = ({ children }) => {
             })
         } catch (error) {
             dispatch({
-                type: 'ERROR_GET_IMAGES',
+                type: 'ERROR__IMAGE',
                 payload: error
             })
         }
@@ -41,7 +41,28 @@ export const GlobalProvider = ({ children }) => {
             })
         } catch (error) {
             dispatch({
-                type: 'ERROR_ADD_IMAGE',
+                type: 'ERROR__IMAGE',
+                payload: error
+            })
+        }
+    }
+
+    async function deleteImage(id) {
+        try {
+            const config = {
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Credentials': 'true'
+                }
+            }
+            await axios.delete(`http://localhost:5000/api/files/${id}`)
+            dispatch({
+                type: 'DELETE_IMAGE',
+                payload: id
+            })
+        } catch (error) {
+            dispatch({
+                type: 'ERROR__IMAGE',
                 payload: error
             })
         }
@@ -53,7 +74,8 @@ export const GlobalProvider = ({ children }) => {
             error: state.error,
             loading: state.loading,
             getImages,
-            addImage
+            addImage,
+            deleteImage
         }}>
             {children}
         </GlobalContext.Provider>

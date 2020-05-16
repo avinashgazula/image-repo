@@ -3,7 +3,7 @@ import { GlobalContext } from '../context/GlobalState'
 
 export const  UserImages = () => {
 
-    const { images, getImages } = useContext(GlobalContext)
+    const { images, getImages, deleteImage } = useContext(GlobalContext)
 
     useEffect(() => {
         getImages();
@@ -34,7 +34,9 @@ export const  UserImages = () => {
             <ul className="user-images">
                 {
                     images.map(image => (
-                        <img key={image._id} src={image.base64} alt={image.filename} width="200"/>
+                        <img
+                            key={image._id} src={image.base64} alt={image.filename} width="200" onDoubleClick={() => deleteImage(image._id)}
+                        />
                 ))}
             </ul>
             

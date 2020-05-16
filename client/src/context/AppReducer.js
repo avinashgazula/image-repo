@@ -6,23 +6,23 @@ export default (state, action) => {
                 loading: false,
                 images: [...action.payload]
             }
-        case 'ERROR_GET_IMAGES':
-            return {
-                ...state,
-                error: action.error
-            }
-
         case 'ADD_IMAGE':            
             return {
                 ...state,
                 images: [...state.images, action.payload]
             }
-        case 'ERROR_ADD_IMAGE':
+        case 'DELETE_IMAGE':
+            return {
+                ...state,
+                images: state.images.filter(image => image._id !== action.payload)
+            }
+        case 'ERROR__IMAGE':
             console.error(action.error)
             return {
                 ...state,
                 error: action.error
             }
+        
         
         default:
             return state
