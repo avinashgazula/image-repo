@@ -6,6 +6,7 @@ const morgan = require('morgan')
 dotenv.config({ path: './config/config.env' })
 
 const images = require('./routes/images');
+const users = require('./routes/users')
 const connectDB = require('./config/db')
 
 const app = express();
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV == 'development') {
 connectDB();
 
 app.use('/api/files', images);
+app.use('/api/users', users)
 
 const PORT = process.env.PORT || 5000;
 

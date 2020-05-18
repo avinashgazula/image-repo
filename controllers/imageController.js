@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 var formidable = require('formidable')
 var fs = require('fs')
 
-var obj1 = {}
+
 
 let readFileAsync = function (filename) {
     return new Promise((resolve, reject) => {
