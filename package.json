@@ -30,7 +30,6 @@
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs": "0.0.1-security",
-    "material-ui": "^0.20.2",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.3",
