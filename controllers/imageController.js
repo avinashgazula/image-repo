@@ -15,17 +15,18 @@ let readFileAsync = function (filename) {
 
 // @route GET /api/images
 exports.getImages = async (req, res, next) => {
+    const { uid } = req.query
+    console.log(uid);
     try {
-        const images = await Image.find();
-        // console.log(images[0].img[4]);
-        
+        const images = await Image.find({ "user": uid });
+
         return res.status(200).json({
             success: true,
             count: images.length,
             data: images
         })
 
-        
+
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -48,9 +49,6 @@ exports.uploadImage = async (req, res, next) => {
                 return;
             }
 
-            // console.log("fields", fields)
-            // console.log("files", files);
-
             var count = Number(fields.count)
 
             var images = []
@@ -64,22 +62,10 @@ exports.uploadImage = async (req, res, next) => {
                 images.push(obj)
                 promises.push(readFileAsync(path))
 
-                // fs.readFile(path,async function read(err, data) {
-                //     if (err) {
-                //         throw err;
-                //     }
-                //     const content = data;
-                //     obj["img"] = content;
-
-                //     const image = await Image.create(obj)
-                //     images.push(image)
-                    
-                // });
-                
             }
 
             Promise.all(promises).then(values => {
-                for (var i = 0; i < values.length; i++){
+                for (var i = 0; i < values.length; i++) {
                     images[i]["img"] = values[i]
                 }
                 Image.insertMany(images).then((docs) => {
@@ -90,60 +76,23 @@ exports.uploadImage = async (req, res, next) => {
                 })
             })
 
-            
-
-            // setTimeout(() => {
-            //     console.log("images", images)
-
-            //     return res.status(201).json({
-            //         success: true,
-            //         images: images
-            //     })
-            // }, 2000);
-
-            
-            
-            
-            
-            
-            
-
-            // var obj = { ...fields, ...files }
-            // var path = files.file.path
-
-            // fs.readFile(path, async function read(err, data) {
-            //     if (err) {
-            //         throw err;
-            //     }
-            //     const content = data;
-            //     obj["img"] = content;
-            //     delete obj["file"]
-
-
-            //     const image = await Image.create(obj)
-            //     return res.status(201).json({
-            //         success: true,
-            //         image: image
-            //     })
-            // });
-
         })
-        
+
     } catch (error) {
         res.status(500).json({
             success: false,
             error: error
         });
     }
-    
 
-    
+
+
 }
 
 
 // @route DELETE /api/images/:id
 exports.deleteImage = async (req, res, next) => {
- 
+
     const image = Image.findById(req.params.id)
     if (!image) {
         return res.status(500).json({

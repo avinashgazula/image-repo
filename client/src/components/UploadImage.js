@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
-export const UploadImage = () => {
+export const UploadImage = ({ user }) => {
     const [images, setImages] = useState(null)
 
     const { addImage } = useContext(GlobalContext)
@@ -28,7 +28,7 @@ export const UploadImage = () => {
             for (var j = 0; j < images.length; j++) {
                 formData.append(`file[${j}]`, images[j])
                 formData.append(`filename[${j}]`, images[j].name)
-                formData.append(`user[${j}]`, "user1")
+                formData.append(`user[${j}]`, user.uid)
             }
 
             addImage(formData);

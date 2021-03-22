@@ -73,6 +73,7 @@ function App() {
       if (user) {
         clearInputs()
         setUser(user)
+        console.log(`uid: ${user.uid}`);
       } else {
         setUser('')
       }
@@ -81,6 +82,7 @@ function App() {
 
   useEffect(() => {
     authenticationListener()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -109,7 +111,7 @@ function App() {
     // </Router>
     <>
       {user ? (
-        <Home handleLogout={handleLogout} />
+        <Home handleLogout={handleLogout} user={user} />
       ) : (
 
         <Login

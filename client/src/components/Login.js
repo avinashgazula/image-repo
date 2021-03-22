@@ -3,7 +3,7 @@ import React from "react"
 
 const Login = (props) => {
 
-    const { email, setEmail, emailError, setEmailError, password, setPassword, passwordError, setPasswordError, user, setUser, accountExists, setAccountExists, handleLogin, handleRegistration } = props
+    const { email, setEmail, emailError, password, setPassword, passwordError, accountExists, setAccountExists, handleLogin, handleRegistration } = props
 
     return (
         <>

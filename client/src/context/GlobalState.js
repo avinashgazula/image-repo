@@ -1,6 +1,6 @@
+import axios from 'axios'
 import React, { createContext, useReducer } from 'react'
 import AppReducer from './AppReducer'
-import axios from 'axios'
 
 
 const initialState = {
@@ -16,9 +16,9 @@ export const GlobalContext = createContext(initialState)
 export const GlobalProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AppReducer, initialState)
 
-    async function getImages() {
+    async function getImages(uid) {
         try {
-            const res = await axios.get('http://localhost:5000/api/files')
+            const res = await axios.get('http://localhost:5000/api/files', { params: { uid } })
             dispatch({
                 type: 'GET_IMAGES',
                 payload: res.data.data
@@ -30,7 +30,7 @@ export const GlobalProvider = ({ children }) => {
             })
         }
     }
-    
+
     async function addImage(images) {
 
         try {
